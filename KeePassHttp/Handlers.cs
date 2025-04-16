@@ -202,6 +202,20 @@ namespace KeePassHttp {
                     if (formHost.EndsWith(uHost))
                         return true;
                 }
+                for (int i = 1; i <= 9; i++)
+                {
+                    string customField = "URL_" + i.ToString();
+                    if (e.Strings.Exists(customField))
+                    {
+                        var extraUrl = e.Strings.ReadSafe(customField).ToLower();
+                        if (!string.IsNullOrEmpty(extraUrl))
+                        {
+                            var uHost = GetHost(extraUrl);
+                            if (formHost.EndsWith(uHost))
+                                return true;
+                        }
+                    }
+                }
                 return formHost.Contains(title) || (entryUrl != null && formHost.Contains(entryUrl));
             };
 
